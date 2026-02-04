@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Analysis Results</h1>
+    <div class="sentiment-row">
+    <span class="sentiment positive">😊 Positive: {{positive}}</span>
+    <span class="sentiment neutral">😐 Neutral: {{neutral}}</span>
+    <span class="sentiment negative">😡 Negative: {{negative}}</span>
+    </div>
+
+
+    <h2 >Top Words</h2>
+    <img src="/static/{{ plot_file }}">
+
+
+    <h2>Try Sentiment Prediction</h2>
+
+<div class="predict-box">
+    <input type="text" id="userText" placeholder="Type your comment here...">
+    <button onclick="predictSentiment()">Predict</button>
+    <p id="predictionResult"></p>
+</div>
+
+    <h2 >Sample Processed Tickets</h2>
+    {{tables | safe}}
+    <div class="pagination">
+    <button id="prevBtn">⬅ Previous</button>
+    <span id="pageInfo"></span>
+    <button id="nextBtn">Next ➡</button>
+    </div>
+
+    <br><br>
+    <a href="/" class="upload-btn">Upload Another File</a>
+</div>
+<script>
+const rowsPerPage = 10;
+let currentPage = 1;
+
+const table = document.querySelector("table");
+const rows = table.querySelectorAll("tbody tr");
+const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+const pageInfo = document.getElementById("pageInfo");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+function showPage(page) {
+    currentPage = page;
+    rows.forEach((row, index) => {
+        row.style.display =
+            index >= (page - 1) * rowsPerPage &&
+            index < page * rowsPerPage
+            ? ""
+            : "none";
+    });
+
+    pageInfo.innerText = `Page ${currentPage} of ${totalPages}`;
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage === totalPages;
+}
+
+prevBtn.onclick = () => showPage(currentPage - 1);
+nextBtn.onclick = () => showPage(currentPage + 1);
+
+showPage(1);
+</script>
+<script>
+function predictSentiment() {
+    const text = document.getElementById("userText").value;
+    if (!text.trim()) return;
+
+    fetch("/predict", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text: text })
+    })
+    .then(res => res.json())
+    .then(data => {
+        const result = document.getElementById("predictionResult");
+        result.innerText = "Sentiment: " + data.sentiment;
+
+        if (data.sentiment === "Positive") result.style.color = "#22c55e";
+        else if (data.sentiment === "Negative") result.style.color = "#ef4444";
+        else result.style.color = "#94a3b8";
+    });
+}
+</script>
+
+
+</body>
+</html>

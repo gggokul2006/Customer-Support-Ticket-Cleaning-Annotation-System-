@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Support NLP</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="form-wrapper">
+    <div class="form-card">
+        <h1>Customer Support Ticket Analysis</h1>
+        <p class="subtitle">Upload your CSV dataset to clean, analyze and visualize support tickets</p>
+
+        <form action="/process" method="post" enctype="multipart/form-data">
+            <label class="custom-file">
+    <input type="file" name="dataset" id="dataset" required>
+    <span id="file-name">Select CSV File</span>
+</label>
+    <br>
+</label>
+
+            <button type="submit">Upload & Analyze</button>
+        </form>
+    </div>
+</div>
+<script>
+document.getElementById("dataset").addEventListener("change", function () {
+    const fileName = this.files.length ? this.files[0].name : "Select CSV File";
+    const label = document.getElementById("file-name");
+    label.textContent = fileName;
+    label.classList.add("selected");
+});
+</script>
+</body>
+</html>
