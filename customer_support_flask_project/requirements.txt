@@ -1,6 +1,0 @@
-
-flask
-pandas
-spacy
-matplotlib
-textblob
