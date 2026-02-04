@@ -32,25 +32,14 @@ The system supports dataset upload, text preprocessing, sentiment analysis, visu
 
 ## 📁 Project Structure
 
-customer-support-nlp/
-│
-├── app.py
-├── requirements.txt
-├── uploads/
-├── static/
-│ ├── style.css
-│ └── plot_*.png
-├── templates/
-│ ├── index.html
-│ └── result.html
-└── README.md
+<img width="298" height="314" alt="image" src="https://github.com/user-attachments/assets/3588cdf1-983d-413b-a8ec-031889f370f6" />
 
 
-##2️⃣ Install dependencies
+**2️⃣ Install dependencies**:
 pip install -r requirements.txt
 
-##3️⃣ Download spaCy model
+**##3️⃣ Download spaCy model:**
 python -m spacy download en_core_web_sm
 
-##4️⃣ Run the application
+**##4️⃣ Run the application:**
 python app.py
